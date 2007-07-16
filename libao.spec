@@ -1,8 +1,9 @@
-%define	name	libao
-%define	version	0.8.6
-%define release %mkrel 3
+%define	name		libao
+%define	version		0.8.6
+%define release		%mkrel 4
 
-%define	libname	%mklibname ao 2
+%define	libname		%mklibname ao 2
+%define develname	%mklibname ao -d
 
 Name:		%{name}
 Summary:	Cross Platform Audio Output Library
@@ -15,11 +16,10 @@ Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.bz2
 Patch0:		libao-0.8.4-fix-optflags.patch.bz2
 Patch1:		libao-0.8.3-lib64.patch.bz2
 # gw raise priority of alsa09 over arts
-Patch2: libao-0.8.6-priority.patch.bz2
+Patch2: 	libao-0.8.6-priority.patch.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	arts esound-devel alsa-lib-devel perl arts-devel
-#BuildRequires:	libpolypaudio-devel
-BuildRequires:	automake1.8
+BuildRequires:	automake
 %define _requires_exceptions libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpolyp
 
 %description
@@ -34,13 +34,14 @@ Group:		System/Libraries
 This package contains the library needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary:	Headers for developing programs that will use %{name}
 Group:		Development/C
 Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%mklibname ao 2 -d
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 This package contains the headers that programmers will need to develop
 applications which will use %{name}.
 
@@ -49,7 +50,7 @@ applications which will use %{name}.
 %patch0 -p0 -b .optflags
 %patch1 -p1 -b .lib64
 %patch2 -p1 -b .priority
-ACLOCAL=aclocal-1.8 AUTOMAKE=automake-1.8 autoreconf --force --install
+autoreconf --force --install
 
 %build
 %configure2_5x --disable-polyp
@@ -74,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ao/*
 %{_mandir}/man5/*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %doc CHANGES doc/*.{html,c,css}
 %{_includedir}/ao
