@@ -1,8 +1,11 @@
-%define	name		libao
-%define	version		0.8.6
-%define release		%mkrel 4
+%define _requires_exceptions libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpolyp
 
-%define	libname		%mklibname ao 2
+%define	name		libao
+%define	version		0.8.8
+%define release		%mkrel 1
+
+%define major 2
+%define	libname		%mklibname ao %{major}
 %define develname	%mklibname ao -d
 
 Name:		%{name}
@@ -13,18 +16,24 @@ Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.bz2
-Patch0:		libao-0.8.4-fix-optflags.patch.bz2
-Patch1:		libao-0.8.3-lib64.patch.bz2
 # gw raise priority of alsa09 over arts
 Patch2: 	libao-0.8.6-priority.patch.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	arts esound-devel alsa-lib-devel perl arts-devel
-BuildRequires:	automake
-%define _requires_exceptions libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpolyp
+BuildRequires:	esound-devel
+BuildRequires:	libalsa-devel
+BuildRequires:	arts-devel
+BuildRequires:	libpulseaudio-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-Libao is a cross platform audio output library. It currently supports ESD,
-OSS, Solaris, and IRIX.
+Libao is a cross-platform audio library that allows programs 
+to output audio using a simple API on a wide variety of platforms. 
+It currently supports:
+
+- ALSA
+- Esound
+- aRts
+- pulseaudio
+- OSS
 
 %package -n	%{libname}
 Summary:	Main library for %{name}
@@ -47,23 +56,24 @@ applications which will use %{name}.
 
 %prep
 %setup -q
-%patch0 -p0 -b .optflags
-%patch1 -p1 -b .lib64
 %patch2 -p1 -b .priority
-autoreconf --force --install
 
 %build
-%configure2_5x --disable-polyp
+%configure2_5x \
+	--enable-esound \
+	--enable-arts \
+	--enable-pulseaudio \
+	--enable-alsa09-mmap
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
-rm -rf $RPM_BUILD_ROOT%{_docdir}
-install -d -m 755 $RPM_BUILD_ROOT%{_libdir}/%{name}/
+rm -rf %{buildroot}%{_docdir}
+install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 
 %clean 
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
@@ -71,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{libname}
 %defattr(-,root,root)
 %doc AUTHORS COPYING README
-%{_libdir}/libao.so.*
+%{_libdir}/libao.so.%{major}*
 %{_libdir}/ao/*
 %{_mandir}/man5/*
 
