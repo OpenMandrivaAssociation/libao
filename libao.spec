@@ -2,7 +2,7 @@
 
 %define	name		libao
 %define	version		0.8.8
-%define release		%mkrel 1
+%define release		%mkrel 2
 
 %define major 2
 %define	libname		%mklibname ao %{major}
@@ -15,9 +15,9 @@ Release:	%{release}
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
-Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.bz2
+Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
 # gw raise priority of alsa09 over arts
-Patch2: 	libao-0.8.6-priority.patch.bz2
+Patch2: 	libao-0.8.6-priority.patch
 BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	arts-devel
@@ -83,7 +83,6 @@ rm -rf %{buildroot}
 %doc AUTHORS COPYING README
 %{_libdir}/libao.so.%{major}*
 %{_libdir}/ao/*
-%{_mandir}/man5/*
 
 %files -n %{develname}
 %defattr(-,root,root)
@@ -94,3 +93,4 @@ rm -rf %{buildroot}
 %dir %{_libdir}/%{name}/
 %{_datadir}/aclocal/ao.m4
 %{_libdir}/pkgconfig/*
+%{_mandir}/man5/*
