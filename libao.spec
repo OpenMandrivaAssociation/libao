@@ -22,6 +22,7 @@ BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	arts-devel
 BuildRequires:	libpulseaudio-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Libao is a cross-platform audio library that allows programs 
