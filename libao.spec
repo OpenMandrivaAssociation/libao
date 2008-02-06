@@ -1,8 +1,8 @@
-%define _requires_exceptions libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpolyp
+%define _requires_exceptions libasound.so\\|libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
 %define	name		libao
 %define	version		0.8.8
-%define release		%mkrel 3
+%define release		%mkrel 4
 
 %define major 2
 %define	libname		%mklibname ao %{major}
@@ -18,6 +18,8 @@ URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
 # gw raise priority of alsa09 over arts
 Patch2: 	libao-0.8.6-priority.patch
+# (fc) 0.8.8-4mdv fix handling buffer for alsa plugin (SVN)
+Patch3:		libao-0.8.8-millisecond.patch
 BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	arts-devel
@@ -57,6 +59,10 @@ applications which will use %{name}.
 %prep
 %setup -q
 %patch2 -p1 -b .priority
+%patch3 -p1 -b .millisecond
+
+# remove incorrect flags, optflag will be used instead
+sed -i "s/-O20//" configure
 
 %build
 %configure2_5x \
