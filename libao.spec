@@ -2,7 +2,7 @@
 
 %define	name		libao
 %define	version		0.8.8
-%define release		%mkrel 4
+%define release		%mkrel 5
 
 %define major 2
 %define	libname		%mklibname ao %{major}
@@ -20,6 +20,8 @@ Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
 Patch2: 	libao-0.8.6-priority.patch
 # (fc) 0.8.8-4mdv fix handling buffer for alsa plugin (SVN)
 Patch3:		libao-0.8.8-millisecond.patch
+# (fc) 0.8.8-5mdv favor pulse over ALSA if present (Mandriva bug #36965)
+Patch4:		libao-0.8.8-pulsepriority.patch
 BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	arts-devel
@@ -60,6 +62,7 @@ applications which will use %{name}.
 %setup -q
 %patch2 -p1 -b .priority
 %patch3 -p1 -b .millisecond
+%patch4 -p1 -b .pulsepriority
 
 # remove incorrect flags, optflag will be used instead
 sed -i "s/-O20//" configure
