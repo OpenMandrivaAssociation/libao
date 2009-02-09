@@ -1,8 +1,8 @@
-%define _requires_exceptions libasound.so\\|libartsc.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
+%define _requires_exceptions libasound.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
 %define	name		libao
 %define	version		0.8.8
-%define release		%mkrel 7
+%define release		%mkrel 8
 
 %define major 2
 %define	libname		%mklibname ao %{major}
@@ -24,7 +24,6 @@ Patch3:		libao-0.8.8-millisecond.patch
 Patch4:		libao-0.8.8-pulsepriority.patch
 BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
-BuildRequires:	arts-devel
 BuildRequires:	libpulseaudio-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -35,7 +34,6 @@ It currently supports:
 
 - ALSA
 - Esound
-- aRts
 - pulseaudio
 - OSS
 
@@ -70,7 +68,7 @@ sed -i "s/-O20//" configure
 %build
 %configure2_5x \
 	--enable-esound \
-	--enable-arts \
+	--disable-arts \
 	--enable-pulseaudio \
 	--enable-alsa09-mmap
 %make
