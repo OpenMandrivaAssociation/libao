@@ -2,7 +2,7 @@
 
 %define	name		libao
 %define	version		0.8.8
-%define release		%mkrel 9
+%define release		%mkrel 10
 
 %define major 2
 %define	libname		%mklibname ao %{major}
