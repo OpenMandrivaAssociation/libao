@@ -1,10 +1,10 @@
 %define _requires_exceptions libasound.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
 %define	name		libao
-%define	version		0.8.8
-%define release		%mkrel 10
+%define	version		1.0.0
+%define release		%mkrel 1
 
-%define major 2
+%define major 4
 %define	libname		%mklibname ao %{major}
 %define develname	%mklibname ao -d
 
@@ -16,12 +16,6 @@ Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
-# gw raise priority of alsa09 over arts
-Patch2: 	libao-0.8.6-priority.patch
-# (fc) 0.8.8-4mdv fix handling buffer for alsa plugin (SVN)
-Patch3:		libao-0.8.8-millisecond.patch
-# (fc) 0.8.8-5mdv favor pulse over ALSA if present (Mandriva bug #36965)
-Patch4:		libao-0.8.8-pulsepriority.patch
 BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	libpulseaudio-devel
@@ -58,9 +52,6 @@ applications which will use %{name}.
 
 %prep
 %setup -q
-%patch2 -p1 -b .priority
-%patch3 -p1 -b .millisecond
-%patch4 -p1 -b .pulsepriority
 
 # remove incorrect flags, optflag will be used instead
 sed -i "s/-O20//" configure
