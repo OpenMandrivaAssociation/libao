@@ -16,7 +16,7 @@ Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
-BuildRequires:	esound-devel
+#BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	libpulseaudio-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -58,7 +58,7 @@ sed -i "s/-O20//" configure
 
 %build
 %configure2_5x \
-	--enable-esound \
+	--disable-esound \
 	--disable-arts \
 	--enable-pulseaudio \
 	--enable-alsa09-mmap
