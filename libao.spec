@@ -2,7 +2,7 @@
 
 %define	name		libao
 %define	version		1.0.0
-%define release		%mkrel 4
+%define release		%mkrel 5
 
 %define major 4
 %define	libname		%mklibname ao %{major}
@@ -16,6 +16,7 @@ Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
+Patch0:		ao-pulse-fixes.patch
 #BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	libpulseaudio-devel
@@ -52,6 +53,7 @@ applications which will use %{name}.
 
 %prep
 %setup -q
+%patch0 -p0
 
 # remove incorrect flags, optflag will be used instead
 sed -i "s/-O20//" configure
