@@ -1,26 +1,20 @@
 %define _requires_exceptions libasound.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
-%define	name		libao
-%define	version		1.0.0
-%define release		%mkrel 6
-
 %define major 4
 %define	libname		%mklibname ao %{major}
 %define develname	%mklibname ao -d
 
-Name:		%{name}
+Name:		libao
 Summary:	Cross Platform Audio Output Library
-Version:	%{version}
-Release:	%{release}
+Version:	1.1.0
+Release:	1
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
 Patch0:		ao-pulse-fixes.patch
-#BuildRequires:	esound-devel
 BuildRequires:	libalsa-devel
 BuildRequires:	libpulseaudio-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Libao is a cross-platform audio library that allows programs 
@@ -60,40 +54,30 @@ sed -i "s/-O20//" configure
 
 %build
 %configure2_5x \
+	--disable-static \
 	--disable-esound \
 	--disable-arts \
 	--enable-pulseaudio \
 	--enable-alsa09-mmap
+
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 rm -rf %{buildroot}%{_docdir}
 install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 
-%clean 
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
 %files -n %{libname}
-%defattr(-,root,root)
 %doc AUTHORS COPYING README
 %{_libdir}/libao.so.%{major}*
 %{_libdir}/ao/*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc CHANGES doc/*.{html,c,css}
 %{_includedir}/ao
 %{_libdir}/libao.so
-%{_libdir}/libao.la
 %dir %{_libdir}/%{name}/
 %{_datadir}/aclocal/ao.m4
 %{_libdir}/pkgconfig/*
