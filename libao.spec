@@ -1,3 +1,4 @@
+%define _disable_ld_no_undefined 1
 %define _requires_exceptions libasound.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
 %define major 4
