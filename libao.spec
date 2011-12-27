@@ -12,7 +12,6 @@ Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
 Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
-Patch0:		ao-pulse-fixes.patch
 BuildRequires:	libalsa-devel
 BuildRequires:	libpulseaudio-devel
 
@@ -47,7 +46,6 @@ applications which will use %{name}.
 
 %prep
 %setup -q
-%patch0 -p0
 
 # remove incorrect flags, optflag will be used instead
 sed -i "s/-O20//" configure
