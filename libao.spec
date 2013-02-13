@@ -1,14 +1,13 @@
 %define _disable_ld_no_undefined 1
-%define _requires_exceptions libasound.so\\|libesd.so\\|libaudiofile.so\\|libaudio.so\\|libpulse
 
-%define major 4
-%define	libname		%mklibname ao %{major}
-%define develname	%mklibname ao -d
+%define	major	4
+%define	libname	%mklibname ao %{major}
+%define	devname	%mklibname ao -d
 
 Name:		libao
 Summary:	Cross Platform Audio Output Library
 Version:	1.1.0
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
@@ -22,7 +21,6 @@ to output audio using a simple API on a wide variety of platforms.
 It currently supports:
 
 - ALSA
-- Esound
 - pulseaudio
 - OSS
 
@@ -34,21 +32,18 @@ Group:		System/Libraries
 This package contains the library needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{develname}
+%package -n	%{devname}
 Summary:	Headers for developing programs that will use %{name}
 Group:		Development/C
 Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{develname}
+%description -n	%{devname}
 This package contains the headers that programmers will need to develop
 applications which will use %{name}.
 
 %prep
 %setup -q
-
-# remove incorrect flags, optflag will be used instead
-sed -i "s/-O20//" configure
 
 %build
 %configure2_5x \
@@ -70,7 +65,7 @@ install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 %{_libdir}/libao.so.%{major}*
 %{_libdir}/ao/*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc CHANGES doc/*.{html,c,css}
 %{_includedir}/ao
 %{_libdir}/libao.so
@@ -81,6 +76,10 @@ install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 
 
 %changelog
+* Wed Feb 13 2013 Per Øyvind Karlsen <peroyvind@mandriva.org> 1.1.0-2
+- drop obsolete dependency filter which doesn't seem to make too much sense
+  anyways...
+
 * Tue Dec 27 2011 Matthew Dawkins <mattydaw@mandriva.org> 1.1.0-1
 + Revision: 745493
 - build fix
