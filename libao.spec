@@ -7,7 +7,7 @@
 Name:		libao
 Summary:	Cross Platform Audio Output Library
 Version:	1.1.0
-Release:	4
+Release:	5
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
