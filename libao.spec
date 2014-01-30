@@ -6,8 +6,8 @@
 
 Name:		libao
 Summary:	Cross Platform Audio Output Library
-Version:	1.1.0
-Release:	6
+Version:	1.2.0
+Release:	1
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
@@ -48,10 +48,8 @@ applications which will use %{name}.
 %build
 %configure2_5x \
 	--disable-static \
-	--disable-esound \
 	--disable-arts \
-	--enable-pulseaudio \
-	--enable-alsa09-mmap
+	--enable-alsa-mmap
 
 %make
 
@@ -69,6 +67,7 @@ install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 %doc CHANGES doc/*.{html,c,css}
 %{_includedir}/ao
 %{_libdir}/libao.so
+%{_libdir}/ckport/db/libao.ckport
 %dir %{_libdir}/%{name}/
 %{_datadir}/aclocal/ao.m4
 %{_libdir}/pkgconfig/*
