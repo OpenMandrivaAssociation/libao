@@ -6,12 +6,15 @@
 
 Name:		libao
 Summary:	Cross Platform Audio Output Library
-Version:	1.2.0
-Release:	7
+Version:	1.2.2
+Release:	1
 Group:		System/Libraries
 License:	GPL
 URL:		http://www.xiph.org/ao/
-Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
+#Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
+Source0:	https://github.com/xiph/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:		libao-1.2.2-linking.patch
+Patch1:		libao-1.2.2-CVE-2017-11548.patc
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(libpulse)
 
@@ -44,17 +47,19 @@ applications which will use %{name}.
 
 %prep
 %setup -q
+%autopatch -p1
 
 %build
 %configure2_5x \
 	--disable-static \
 	--disable-arts \
+	--enable-pulse \
 	--enable-alsa-mmap
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 rm -rf %{buildroot}%{_docdir}
 install -d -m 755 %{buildroot}%{_libdir}/%{name}/
 
