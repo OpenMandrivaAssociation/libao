@@ -50,12 +50,19 @@ applications which will use %{name}.
 %autopatch -p1
 
 %build
+autoreconf -vfi
 %configure2_5x \
+	--disable-esd \
 	--disable-static \
 	--disable-arts \
 	--enable-pulse \
 	--enable-alsa-mmap
+	
+# (Fedora) kill rpath
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
+%make_build -C src libao.la
 %make_build
 
 %install
