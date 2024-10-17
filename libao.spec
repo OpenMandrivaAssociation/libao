@@ -10,7 +10,7 @@ Version:	1.2.2
 Release:	2
 Group:		System/Libraries
 License:	GPL
-URL:		http://www.xiph.org/ao/
+URL:		https://www.xiph.org/ao/
 #Source0:	http://downloads.xiph.org/releases/ao/%{name}-%{version}.tar.gz
 Source0:	https://github.com/xiph/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Patch0:		libao-1.2.2-linking.patch
