@@ -15,6 +15,11 @@ URL:		https://www.xiph.org/ao/
 Source0:	https://github.com/xiph/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Patch0:		libao-1.2.2-linking.patch
 Patch1:		libao-1.2.2-CVE-2017-11548.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(libpulse)
 
